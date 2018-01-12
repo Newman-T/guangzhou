@@ -1,6 +1,8 @@
 <template>
     <div>
-        测试
+        固定头部
+        <router-view></router-view>
+        固定底部
     </div>
 </template>
 
