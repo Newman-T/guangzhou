@@ -12,7 +12,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
-                    <el-button >重置</el-button>
+                    <el-button @click="resetForm('ruleForm2')">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -62,7 +62,6 @@
         methods: {
             login(){
                 this.$http.post(this.$api.login,this.formLabelAlign).then(res=>{
-                    console.log(res)
                     if(res.data.status==0){
                         this.$alert('登录成功，马上跳转到后台管理');
                     }else{
