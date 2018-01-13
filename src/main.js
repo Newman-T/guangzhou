@@ -1,7 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import 'normalize.css';
 
 Vue.use(VueRouter);
+Vue.use(ElementUI);
 import App from './component/App.vue';
 
 import routerConfig from './router/router.js';
