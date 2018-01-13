@@ -11,7 +11,7 @@
                     <el-input v-model="formLabelAlign.upwd"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm2')">立即创建</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
                     <el-button >重置</el-button>
                 </el-form-item>
             </el-form>
@@ -48,17 +48,20 @@
                 },
                 rules:{
                     uname:[
+                        { required: true, message: '请填写账号', trigger: 'blur' },
+                        { min: 5, max: 18, message: '账号在6~18位', trigger: 'blur' },
                         {validator:unameFn,trigger:'blur'}
                     ],
                     upwd:[
-                        {validator:upwdFn,trigger:'blur'}
+                        {validator:upwdFn,trigger:'blur'},
+                        { pattern: /^\w{6,18}$/, message: '密码在6~18位', trigger: 'blur' },
                     ]
                 }
             }
         },
         methods: {
             login(){
-                this.$http.post(this.$api.login,this.formLabelAlign).then(rsp=>{
+                this.$http.post(this.$api.login,this.formLabelAlign).then(res=>{
                     if(res.data.status==0){
                         this.$alert('登录成功，马上跳转到后台管理');
                     }else{
