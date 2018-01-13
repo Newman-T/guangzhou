@@ -1,8 +1,6 @@
 <template>
     <div>
-        固定头部
         <router-view></router-view>
-        固定底部
     </div>
 </template>
 
@@ -13,5 +11,8 @@
 </script>
 
 <style scoped>
-
+    div{
+        height: 100%;
+        background-color: rgb(38, 124, 183);
+    }
 </style>
