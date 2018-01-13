@@ -30,14 +30,14 @@
                     if(value=""){
                         callback(new Error('账号不能为空'))
                     }else{
-                        callback;
+                        callback();
                     }
                 }
                 function upwdFn(rule,value,callback) {
                     if(value=""){
                         callback(new Error('密码不能为空'))
                     }else{
-                        callback;
+                        callback();
                     }
                 }
                 
@@ -48,13 +48,13 @@
                 },
                 rules:{
                     uname:[
-                        { required: true, message: '请填写账号', trigger: 'blur' },
-                        { min: 5, max: 18, message: '账号在6~18位', trigger: 'blur' },
+                        // { required: true, message: '请填写账号', trigger: 'blur' },
+                        // { min: 5, max: 18, message: '账号在5~18位', trigger: 'blur' },
                         {validator:unameFn,trigger:'blur'}
                     ],
                     upwd:[
                         {validator:upwdFn,trigger:'blur'},
-                        { pattern: /^\w{6,18}$/, message: '密码在6~18位', trigger: 'blur' },
+                        // { pattern: /^\w{6,18}$/, message: '密码在6~18位', trigger: 'blur' },S
                     ]
                 }
             }
@@ -62,6 +62,7 @@
         methods: {
             login(){
                 this.$http.post(this.$api.login,this.formLabelAlign).then(res=>{
+                    console.log(res)
                     if(res.data.status==0){
                         this.$alert('登录成功，马上跳转到后台管理');
                     }else{
