@@ -11,7 +11,7 @@
                 <Header></Header>
             </el-header>
             <!-- 右侧主体, 将来通过路由控制 -->
-            <el-main>
+            <el-main class="mainHight">
                 <router-view></router-view>
             </el-main>
         </el-container>
@@ -44,6 +44,7 @@
     .el-main {
         background-color: #E9EEF3;
         color: #333;
+        min-height: 0;
     }
     .admin{
         height:100%;
