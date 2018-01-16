@@ -23,7 +23,7 @@ export default{
         { name: 'login', path: '/login', component: Login },
         // { name: 'register', path: '/register', component: Register },
         // { name: 'home', path: '/home', component: Home },
-        { name: 'admin', path: '/admin', component: Admin },
+        // { name: 'admin', path: '/admin', component: Admin },
         { path: '/', redirect: '/admin' },
         { name: 'admin', path: '/admin', component: Admin,children:adminChildren },
 

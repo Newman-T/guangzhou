@@ -63,7 +63,8 @@
             login(){
                 this.$http.post(this.$api.login,this.formLabelAlign).then(res=>{
                     if(res.data.status==0){
-                        this.$router.push({ name: 'admin' });
+                        let nextPage = this.$route.query.nextPage;
+                        this.$router.push({ path: nextPage?nextPage:'/admin' });
                     }else{
                         this.$alert(res.data.message);
                     }
