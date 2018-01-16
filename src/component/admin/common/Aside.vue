@@ -44,8 +44,8 @@
                         {
                             title: '购物商城',
                             children: [
-                                { title: '内容管理', path: '/a' },
-                                { title: '类别管理', path: '/b' },
+                                { title: '内容管理', path: '/admin/goods/content/list' },
+                                { title: '类别管理', path: '/a' },
                                 { title: '评论管理', path: '/c' },
                             ]
                         },
