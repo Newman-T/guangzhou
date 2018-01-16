@@ -52,6 +52,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination 
+            @size-change="sizeChange" @current-change="currentChange"
+            :current-page="gsListQuery.pageIndex" :page-sizes="page.pageSizes" 
+            :page-size="gsListQuery.pageSize" :total="page.total"
+            layout="total, sizes, prev, pager, next, jumper">
+        </el-pagination>
     </div>
 </template>
 
@@ -93,6 +99,11 @@
                     pageIndex: 1,
                     pageSize: 10,
                     searchvalue: ''
+                },
+
+                page:{
+                    pageSizes:[10,20,30,40],
+                    total:100
                 }
             }
         },
@@ -101,11 +112,23 @@
             getGoodsList(){
                 this.$http.get(this.$api.gsList,{params:this.gsListQuery}).then(res=>{
                     this.tableData3=res.data.message;
+                    this.page.total=res.data.totalcount;
+                    res.data.totalcount;
+                    res.data.pageIndex;
+                    res.data.pageSize;
                 });
             },
             modifyStatus(id,type,newStatus){
                 this.tableData3.filter(goods=>goods.id==id)[0][type]=newStatus?1:0;
-            }
+            },
+            sizeChange(pageSize){
+                this.gsListQuery.pageSize=pageSize;
+                this.getGoodsList();
+            },
+            currentChange(pageIndex){
+                this.gsListQuery.pageIndex=pageIndex;
+                this.getGoodsList();
+            },
         },
         created(){
             this.getGoodsList();
