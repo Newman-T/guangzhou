@@ -90,16 +90,11 @@ export default {
     };
 
     return {
-      ruleForm: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
+      //当前编辑的商品ID
+      id:null,
+      //分类列表数据
+      goodsCategory: [],
+      ruleForm: {},
       rules: {
         title: [
           { required: true, message: "请输入标题", trigger: "blur" },
@@ -130,13 +125,13 @@ export default {
           url:
             "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
         }
-      ],
-      goodsCategory: []
+      ]
     };
   },
   methods: {
+    // 修改商品数据
     goodsModify() {
-      this.$http.post(this.$api.gsEdit + this.id, this.ruleForm).then(res => {
+      this.$http.post(this.$api.gsEdit+this.id, this.ruleForm).then(res => {
         if (res.data.status == 0) {
           this.$alert("马上跳回商品列表页", "修改成功", {
             confirmButtonText: "确定",
@@ -147,16 +142,20 @@ export default {
         }
       });
     },
+    // 保存修改
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.goodsModify();
+          if(this.ruleForm.imgList && this.ruleForm.imgList.length){
+            this.goodsModify();
+          }
         } else {
-          this.$alert("error submit!!");
+          this.$alert("请上传封面图");
           return false;
         }
       });
     },
+    // 删除封面图
     imgRemove(file, fileList) {
       let removeUrl = file.url;
       this.ruleForm.imgList = this.ruleForm.imgList.filter(v => v.url != removeUrl);
