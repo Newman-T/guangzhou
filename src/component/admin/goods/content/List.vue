@@ -9,13 +9,13 @@
          <!-- 按钮组 -->
         <div>
             <el-button size="mini" plain icon="el-icon-plus">新增</el-button>
-            <el-button size="mini" plain icon="el-icon-check">全选</el-button>
-            <el-button size="mini" plain icon="el-icon-delete">删除</el-button>
+            <el-button size="mini" plain icon="el-icon-check" @click="selectAll">全选</el-button>
+            <el-button size="mini" plain icon="el-icon-delete" @click="selectDel">删除</el-button>
             <el-input style="width: 200px; float: right;" size="mini" 
             placeholder="请输入内容" prefix-icon="el-icon-search"
             v-model="gsListQuery.searchvalue" @blur="getGoodsList"></el-input>
         </div>
-        <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%">
+        <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="selectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="标题">
                 <template slot-scope="scope">
@@ -104,7 +104,10 @@
                 page:{
                     pageSizes:[10,20,30,40],
                     total:100
-                }
+                },
+                selection:[
+                    
+                ],
             }
         },
 
@@ -129,6 +132,41 @@
                 this.gsListQuery.pageIndex=pageIndex;
                 this.getGoodsList();
             },
+            selectAll(){
+                document.querySelector(".el-checkbox__inner").click();
+            },
+            del(){
+                let ids = this.selection.map(v => v.id).join(',');
+                this.$http.get(this.$api.gsDel + ids).then(res=>{
+                    if(res.data.status==0){
+                        // 重新加载列表
+                        this.getGoodsList();
+                        // 清空获取项
+                        this.selection=[];
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                });
+            },
+            selectDel(){
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.del();
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+            },
+            selectionChange(selection){
+                this.selection = selection;
+            }
         },
         created(){
             this.getGoodsList();
