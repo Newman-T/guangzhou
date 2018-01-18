@@ -90,11 +90,26 @@ export default {
     };
 
     return {
+      // 表单默认数据
+
       //当前编辑的商品ID
       id:null,
       //分类列表数据
       goodsCategory: [],
-      ruleForm: {},
+      tablename:'goods',
+      // 表单默认数据
+      ruleForm: {
+        status:false,
+        is_slide:false,
+        is_top:false,
+        is_hot:false,
+        fileList:[],
+        goods_no:0,
+        stock_quantity:0,
+        market_price:0,
+        sell_price:0,
+        content:''
+      },
       rules: {
         title: [
           { required: true, message: "请输入标题", trigger: "blur" },
@@ -142,12 +157,31 @@ export default {
         }
       });
     },
+    // 新增商品
+    goodsAdd(){
+      this.$http.post(this.$api.gsAdd+this.tablename,this.ruleForm).then(res=>{
+        // console.log(res)
+        if(res.data.status == 0){
+          console.log(1)
+          this.$alert("马上跳回商品列表页", "新增成功", {
+            confirmButtonText: "确定",
+            callback: action => {
+              this.$router.push({ name: "goodsCtList" });
+            }
+          });
+        }
+      });
+    },
+
     // 保存修改
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if(this.ruleForm.imgList && this.ruleForm.imgList.length){
-            this.goodsModify();
+          if(this.id!=undefined){
+          this.goodsModify();
+          }else{
+            this.goodsAdd();
+            // console.log(this.ruleForm);
           }
         } else {
           this.$alert("请上传封面图");
@@ -186,11 +220,13 @@ export default {
     },
     //获取商品数据
     getGoods() {
-      this.$http.get(this.$api.gsDetail + this.id).then(res => {
-        this.ruleForm = res.data.message;
-        this.ruleForm.category_id = +this.ruleForm.category_id;
-        // console.log(res.data.message);
-      });
+      if(this.id!=undefined){
+        this.$http.get(this.$api.gsDetail + this.id).then(res => {
+          this.ruleForm = res.data.message;
+          this.ruleForm.category_id = +this.ruleForm.category_id;
+          // console.log(res.data.message);
+        });
+      }
     },
     //获取商品分类
     getGoodsCategory() {

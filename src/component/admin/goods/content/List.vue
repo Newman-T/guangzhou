@@ -8,7 +8,9 @@
         </el-breadcrumb>
          <!-- 按钮组 -->
         <div>
-            <el-button size="mini" plain icon="el-icon-plus">新增</el-button>
+            <el-button size="mini" plain icon="el-icon-plus">
+                <router-link :to="{name:'goodsCtAdd'}">新增</router-link>
+            </el-button>
             <el-button size="mini" plain icon="el-icon-check" @click="selectAll">全选</el-button>
             <el-button size="mini" plain icon="el-icon-delete" @click="selectDel">删除</el-button>
             <el-input style="width: 200px; float: right;" size="mini" 
